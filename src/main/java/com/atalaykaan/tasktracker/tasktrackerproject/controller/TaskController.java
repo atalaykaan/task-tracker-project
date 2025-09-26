@@ -1,5 +1,6 @@
 package com.atalaykaan.tasktracker.tasktrackerproject.controller;
 
+import com.atalaykaan.tasktracker.tasktrackerproject.dto.TaskDTO;
 import com.atalaykaan.tasktracker.tasktrackerproject.model.Task;
 import com.atalaykaan.tasktracker.tasktrackerproject.service.TaskService;
 import jakarta.validation.Valid;
@@ -22,31 +23,31 @@ public class TaskController {
     }
 
     @GetMapping("/tasks")
-    public ResponseEntity<List<Task>> getAllTasks() {
+    public ResponseEntity<List<TaskDTO>> getAllTasks() {
 
         return ResponseEntity.ok(taskService.findAllTasks());
     }
 
     @GetMapping("/tasks/{id}")
-    public ResponseEntity<Task> getTaskById(@PathVariable int id) {
+    public ResponseEntity<TaskDTO> getTaskById(@PathVariable int id) {
 
         return ResponseEntity.ok(taskService.findById(id));
     }
 
     @PostMapping("/tasks")
-    public ResponseEntity<Task> addTask(@Valid @RequestBody Task task) {
+    public ResponseEntity<TaskDTO> addTask(@Valid @RequestBody TaskDTO taskDTO) {
 
-        return ResponseEntity.status(HttpStatus.CREATED).body(taskService.createTask(task));
+        return ResponseEntity.status(HttpStatus.CREATED).body(taskService.createTask(taskDTO));
     }
 
     @PutMapping("/tasks/{id}")
-    public ResponseEntity<Task> updateTask(@Valid @PathVariable int id, @RequestBody Task task) {
+    public ResponseEntity<TaskDTO> updateTask(@Valid @PathVariable int id, @RequestBody TaskDTO taskDTO) {
 
-        return ResponseEntity.ok(taskService.updateTask(id, task));
+        return ResponseEntity.ok(taskService.updateTask(id, taskDTO));
     }
 
     @DeleteMapping("/tasks/{id}")
-    public ResponseEntity<Task> deleteTask(@PathVariable int id) {
+    public ResponseEntity<Void> deleteTask(@PathVariable int id) {
 
         taskService.deleteTask(id);
 

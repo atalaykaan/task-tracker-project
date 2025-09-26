@@ -34,9 +34,12 @@ public class Task {
 
     }
 
-    public Task(String description, TaskStatus status) {
+    public Task(int id, String description, TaskStatus status, LocalDate createdAt, LocalDate updatedAt) {
+        this.id = id;
         this.description = description;
         this.status = status;
+        this.createdAt = createdAt;
+        this.updatedAt = updatedAt;
     }
 
     public int getId() {
