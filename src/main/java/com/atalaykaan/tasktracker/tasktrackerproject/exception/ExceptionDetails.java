@@ -1,24 +1,24 @@
 package com.atalaykaan.tasktracker.tasktrackerproject.exception;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 public class ExceptionDetails {
 
-    private LocalDate timeStamp;
+    private LocalDateTime timeStamp;
     private String message;
     private String description;
 
-    public ExceptionDetails(LocalDate timeStamp, String message, String description) {
+    public ExceptionDetails(LocalDateTime timeStamp, String message, String description) {
         this.timeStamp = timeStamp;
         this.message = message;
         this.description = description;
     }
 
-    public LocalDate getTimeStamp() {
+    public LocalDateTime getTimeStamp() {
         return timeStamp;
     }
 
-    public void setTimeStamp(LocalDate timeStamp) {
+    public void setTimeStamp(LocalDateTime timeStamp) {
         this.timeStamp = timeStamp;
     }
 

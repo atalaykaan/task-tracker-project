@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @ControllerAdvice
 public class CustomResponseEntityExceptionHandler extends ResponseEntityExceptionHandler {
@@ -18,7 +18,7 @@ public class CustomResponseEntityExceptionHandler extends ResponseEntityExceptio
     public final ResponseEntity<ExceptionDetails> handleAllExceptions(Exception ex, WebRequest request) throws Exception {
 
         ExceptionDetails exceptionDetails =
-                new ExceptionDetails(LocalDate.now(), ex.getMessage(), request.getDescription(false));
+                new ExceptionDetails(LocalDateTime.now(), ex.getMessage(), request.getDescription(false));
 
         return new ResponseEntity<ExceptionDetails>(exceptionDetails, HttpStatus.INTERNAL_SERVER_ERROR);
     }
@@ -27,7 +27,16 @@ public class CustomResponseEntityExceptionHandler extends ResponseEntityExceptio
     public final ResponseEntity<ExceptionDetails> handleTaskNotFoundException(Exception ex, WebRequest request) throws TaskNotFoundException {
 
         ExceptionDetails exceptionDetails =
-                new ExceptionDetails(LocalDate.now(), ex.getMessage(), request.getDescription(false));
+                new ExceptionDetails(LocalDateTime.now(), ex.getMessage(), request.getDescription(false));
+
+        return new ResponseEntity<ExceptionDetails>(exceptionDetails, HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(InvalidTaskPostRequestException.class)
+    public final ResponseEntity<ExceptionDetails> handleInvalidTaskPostRequestException(Exception ex, WebRequest request) throws TaskNotFoundException {
+
+        ExceptionDetails exceptionDetails =
+                new ExceptionDetails(LocalDateTime.now(), ex.getMessage(), request.getDescription(false));
 
         return new ResponseEntity<ExceptionDetails>(exceptionDetails, HttpStatus.NOT_FOUND);
     }
@@ -35,13 +44,13 @@ public class CustomResponseEntityExceptionHandler extends ResponseEntityExceptio
     @Override
     protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex, HttpHeaders headers, HttpStatusCode status, WebRequest request) {
 
-        String errorMessage = "Total field errors: "
+        String errorMessage = "Total field validation errors: "
                 + ex.getErrorCount()
                 + ", Errors: "
                 + ex.getFieldErrors().stream().map(FieldError::getDefaultMessage).toList();
 
         ExceptionDetails exceptionDetails =
-                new ExceptionDetails(LocalDate.now(), errorMessage, request.getDescription(false));
+                new ExceptionDetails(LocalDateTime.now(), errorMessage, request.getDescription(false));
 
         return new ResponseEntity<Object>(exceptionDetails, HttpStatus.BAD_REQUEST);
     }
@@ -50,7 +59,7 @@ public class CustomResponseEntityExceptionHandler extends ResponseEntityExceptio
     protected ResponseEntity<Object> handleHttpMessageNotReadable(HttpMessageNotReadableException ex, HttpHeaders headers, HttpStatusCode status, WebRequest request) {
 
         ExceptionDetails exceptionDetails =
-                new ExceptionDetails(LocalDate.now(), ex.getMessage(), request.getDescription(false));
+                new ExceptionDetails(LocalDateTime.now(), ex.getMessage(), request.getDescription(false));
 
         return new ResponseEntity<Object>(exceptionDetails, HttpStatus.BAD_REQUEST);
     }

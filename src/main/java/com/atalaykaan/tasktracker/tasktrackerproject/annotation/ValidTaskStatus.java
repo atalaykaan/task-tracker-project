@@ -15,4 +15,5 @@ public @interface ValidTaskStatus {
     String message() default "Invalid enum value";
     Class<?>[] groups() default {};
     Class<? extends Payload>[] payload() default {};
+    boolean ignoreCase() default false;
 }
