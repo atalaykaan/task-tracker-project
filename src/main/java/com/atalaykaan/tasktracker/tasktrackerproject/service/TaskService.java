@@ -58,9 +58,9 @@ public class TaskService {
         task.setCreatedAt(LocalDateTime.now());
         task.setUpdatedAt(LocalDateTime.now());
 
-        taskRepository.save(task);
+        Task savedTask = taskRepository.save(task);
 
-        return taskMapper.toDTO(task);
+        return taskMapper.toDTO(savedTask);
     }
 
     @Transactional
@@ -71,6 +71,7 @@ public class TaskService {
         Task task = taskMapper.fromDTO(taskDTO);
         task.setId(id);
         task.setCreatedAt(oldTask.getCreatedAt());
+        task.setUpdatedAt(LocalDateTime.now());
         Task savedTask = taskRepository.save(task);
 
         return taskMapper.toDTO(savedTask);
