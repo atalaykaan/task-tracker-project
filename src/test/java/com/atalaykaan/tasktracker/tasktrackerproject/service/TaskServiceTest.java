@@ -64,6 +64,10 @@ class TaskServiceTest {
 
         assertEquals(expectedTaskDTO, result);
 
+        Mockito.verify(taskMapper).fromDTO(inputTaskDTO);
+        Mockito.verify(taskRepository).save(Mockito.any(Task.class));
+        Mockito.verify(taskMapper).toDTO(savedTask);
+
     }
 
 }
